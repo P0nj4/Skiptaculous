@@ -12,6 +12,8 @@ class PlayScene : SKScene {
     
     let runningBar = SKSpriteNode(imageNamed: "bar")
     let hero = SKSpriteNode(imageNamed: "hero")
+    let block1 = SKSpriteNode(imageNamed: "block1")
+    let block2 = SKSpriteNode(imageNamed: "block2")
     var originBarPosition = CGFloat(0)
     var xMaxBar = CGFloat(0)
     var groundSpeed = CGFloat(2)
@@ -36,8 +38,55 @@ class PlayScene : SKScene {
 
         self.heroBaseLine = self.hero.position.y
         self.addChild(hero)
+        
+        //ading blocks
+        self.block1.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2, self.heroBaseLine);
+        println("x:\(self.block1.position.x) y:\(self.block1.position.y)")
+        self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2, self.heroBaseLine);
+        
+        self.block1.name = "block1";
+        self.block2.name = "block2";
+        
+        self.blockStatuses["block1"] = BlockStatus(isRunning: false, timeGapForNextRun: self.random(), currentInterval: UInt32(0))
+        self.blockStatuses["block2"] = BlockStatus(isRunning: false, timeGapForNextRun: self.random(), currentInterval: UInt32(0))
+        
+        self.addChild(self.block1)
+        self.addChild(self.block2)
     }
     
+    func random() -> UInt32 {
+        return arc4random_uniform(150)
+    }
+    
+    var blockStatuses : Dictionary <String, BlockStatus> = [:]
+    
+    
+    func blockRunning(){
+        for (blk, currStatus) in self.blockStatuses {
+            if currStatus.isReadyToRun() {
+                currStatus.timeGap = self.random()
+                currStatus.currentInterval = 0
+                currStatus.isRunning = true
+                
+            }
+            
+            if currStatus.isRunning {
+                if let thisBlock = self.childNodeWithName(blk) {
+                    
+                    if thisBlock.position.x > (thisBlock.frame.size.width / 2) * -1 {
+                        thisBlock.position.x -= CGFloat(self.groundSpeed * 2)
+                    }else{
+                        thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2;
+                        currStatus.isRunning = false;
+                    }
+                }
+            }else{
+                currStatus.currentInterval++;
+            }
+            
+        }
+    }
+
     override func update(currentTime: NSTimeInterval) {
         // ground move
         if(self.runningBar.position.x <= xMaxBar){
@@ -60,12 +109,15 @@ class PlayScene : SKScene {
             velocityY = 0.0
             self.onTheGround = true
         }
+        
+        self.blockRunning()
+        
     
     }
     
     override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
         if onTheGround {
-            self.velocityY = -18
+            self.velocityY = -22
             self.onTheGround = false
             
         }
