@@ -24,6 +24,12 @@ class GameScene: SKScene {
             let location = touch.locationInNode(self);
             if self.nodeAtPoint(location) == self.playButton{
                 println("play button pressed")
+                var scene = PlayScene(size: self.size);
+                let skView = self.view as SKView
+                skView.ignoresSiblingOrder = true
+                scene.scaleMode = .ResizeFill
+                scene.size = skView.bounds.size
+                skView.presentScene(scene)
             }
         }
        
