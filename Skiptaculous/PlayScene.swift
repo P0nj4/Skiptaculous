@@ -39,6 +39,9 @@ class PlayScene : SKScene {
             self.runningBar.position.x = self.originBarPosition
         }
         
+        var degreeRotation = (self.groundSpeed * 3) * 3.14 / 180
+        self.hero.zRotation -= CGFloat(degreeRotation)
+        
         self.runningBar.position.x -= self.groundSpeed;
     
     }
