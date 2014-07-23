@@ -11,9 +11,11 @@ import SpriteKit
 class PlayScene : SKScene {
     
     let runningBar = SKSpriteNode(imageNamed: "bar")
+    let hero = SKSpriteNode(imageNamed: "hero")
     var originBarPosition = CGFloat(0)
     var xMaxBar = CGFloat(0)
     var groundSpeed = CGFloat(2)
+    var heroBaseLine = CGFloat(0)
     
     override func didMoveToView(view: SKView!) {
         println("play scene displayed")
@@ -26,6 +28,10 @@ class PlayScene : SKScene {
         
         self.xMaxBar = self.runningBar.size.width - CGRectGetMaxX(self.frame)
         self.xMaxBar *= -1
+        self.heroBaseLine = self.runningBar.position.y + self.runningBar.frame.height;
+        self.hero.position = CGPointMake(CGRectGetMinX(self.frame) + self.hero.size.width / 2, self.runningBar.position.y + self.runningBar.size.height + (self.hero.size.height / 2))
+        
+        self.addChild(hero)
     }
     
     override func update(currentTime: NSTimeInterval) {
