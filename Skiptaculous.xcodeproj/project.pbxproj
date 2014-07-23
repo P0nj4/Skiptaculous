@@ -14,6 +14,7 @@
 		447E5ED7197FEBD700EF00B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447E5ED5197FEBD700EF00B2 /* Main.storyboard */; };
 		447E5ED9197FEBD700EF00B2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 447E5ED8197FEBD700EF00B2 /* Images.xcassets */; };
 		447E5EE5197FEBD800EF00B2 /* SkiptaculousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447E5EE4197FEBD800EF00B2 /* SkiptaculousTests.swift */; };
+		447E5EF11980178E00EF00B2 /* RTUIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447E5EF01980178E00EF00B2 /* RTUIColorExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		447E5EDE197FEBD800EF00B2 /* SkiptaculousTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkiptaculousTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		447E5EE3197FEBD800EF00B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		447E5EE4197FEBD800EF00B2 /* SkiptaculousTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkiptaculousTests.swift; sourceTree = "<group>"; };
+		447E5EF01980178E00EF00B2 /* RTUIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTUIColorExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		447E5ECA197FEBD700EF00B2 /* Skiptaculous */ = {
 			isa = PBXGroup;
 			children = (
+				447E5EF01980178E00EF00B2 /* RTUIColorExtensions.swift */,
 				447E5ECD197FEBD700EF00B2 /* AppDelegate.swift */,
 				447E5ECF197FEBD700EF00B2 /* GameScene.sks */,
 				447E5ED1197FEBD700EF00B2 /* GameScene.swift */,
@@ -216,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				447E5ED2197FEBD700EF00B2 /* GameScene.swift in Sources */,
+				447E5EF11980178E00EF00B2 /* RTUIColorExtensions.swift in Sources */,
 				447E5ED4197FEBD700EF00B2 /* GameViewController.swift in Sources */,
 				447E5ECE197FEBD700EF00B2 /* AppDelegate.swift in Sources */,
 			);
