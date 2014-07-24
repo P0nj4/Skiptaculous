@@ -42,7 +42,8 @@ class PlayScene : SKScene {
         //ading blocks
         self.block1.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2, self.heroBaseLine);
         println("x:\(self.block1.position.x) y:\(self.block1.position.y)")
-        self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2, self.heroBaseLine);
+        self.block2.anchorPoint = CGPointMake(CGFloat(0),CGFloat(0))
+        self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2, self.runningBar.size.height);
         
         self.block1.name = "block1";
         self.block2.name = "block2";
@@ -92,7 +93,7 @@ class PlayScene : SKScene {
         if(self.runningBar.position.x <= xMaxBar){
             self.runningBar.position.x = self.originBarPosition
         }
-        self.runningBar.position.x -= self.groundSpeed;
+        self.runningBar.position.x -= self.groundSpeed * 2;
         
         
         // hero rotation
