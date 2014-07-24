@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "6 - Xc2oNw8.png"
+      "filename" : "enemy1.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "enemy1-1.png"
     }
   ],
   "info" : {
