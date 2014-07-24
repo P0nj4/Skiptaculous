@@ -14,6 +14,8 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
     let hero = SKSpriteNode(imageNamed: "hero")
     let block1 = SKSpriteNode(imageNamed: "block1")
     let block2 = SKSpriteNode(imageNamed: "block2")
+    let footballPlayer = SKSpriteNode(imageNamed: "footballPlayer")
+    let ball = SKSpriteNode(imageNamed: "ball")
     var originBarPosition = CGFloat(0)
     var xMaxBar = CGFloat(0)
     var groundSpeed = CGFloat(2)
@@ -51,12 +53,18 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         self.hero.physicsBody!.categoryBitMask = colliderType.heroType.toRaw()
         self.hero.physicsBody!.contactTestBitMask = colliderType.blockType.toRaw()
         self.hero.physicsBody!.collisionBitMask = colliderType.blockType.toRaw()
-        //self.hero.physicsBody!.usesPreciseCollisionDetection = true
-        
         self.heroBaseLine = self.hero.position.y
         self.addChild(hero)
         
-        //ading blocks
+        //football player
+        self.footballPlayer.position = CGPointMake(self.footballPlayer.frame.width / 2 + 4, self.runningBar.frame.height + self.footballPlayer.frame.height / 2)
+        self.addChild(self.footballPlayer)
+        
+        //ball
+        self.ball.position = CGPointMake((self.footballPlayer.position.x + self.footballPlayer.frame.width / 2) - self.ball.frame.width / 2, self.runningBar.frame.height + self.footballPlayer.frame.height / 2 - 4)
+        self.addChild(self.ball)
+        
+        //adding blocks
         self.block1.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2, self.heroBaseLine);
         self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2, self.runningBar.size.height + self.block2.size.height / 2);
         
@@ -188,7 +196,7 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         if contact.bodyB.categoryBitMask == colliderType.heroType.toRaw() {
             println("hero has been touched by a something")
         }
-        died()
+        //died()
     }
     
 }
