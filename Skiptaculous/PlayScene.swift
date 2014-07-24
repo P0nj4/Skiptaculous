@@ -21,6 +21,8 @@ class PlayScene : SKScene {
     var velocityY = CGFloat(0)
     var onTheGround = true
     var gravity = CGFloat(0.6)
+    var blockStatuses : Dictionary <String, BlockStatus> = [:]
+    
     
     override func didMoveToView(view: SKView!) {
         println("play scene displayed")
@@ -56,37 +58,11 @@ class PlayScene : SKScene {
     }
     
     func random() -> UInt32 {
-        return arc4random_uniform(150)
+        return arc4random_uniform(100)
     }
     
-    var blockStatuses : Dictionary <String, BlockStatus> = [:]
     
     
-    func blockRunning(){
-        for (blk, currStatus) in self.blockStatuses {
-            if currStatus.isReadyToRun() {
-                currStatus.timeGap = self.random()
-                currStatus.currentInterval = 0
-                currStatus.isRunning = true
-                
-            }
-            
-            if currStatus.isRunning {
-                if let thisBlock = self.childNodeWithName(blk) {
-                    
-                    if thisBlock.position.x > (thisBlock.frame.size.width / 2) * -1 {
-                        thisBlock.position.x -= CGFloat(self.groundSpeed * 2)
-                    }else{
-                        thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2;
-                        currStatus.isRunning = false;
-                    }
-                }
-            }else{
-                currStatus.currentInterval++;
-            }
-            
-        }
-    }
 
     override func update(currentTime: NSTimeInterval) {
         // ground move
@@ -127,6 +103,33 @@ class PlayScene : SKScene {
     override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
         if self.velocityY < -9.0 {
             self.velocityY = -9.0
+        }
+    }
+    
+    #pra
+    
+    func blockRunning(){
+        for (blk, currStatus) in self.blockStatuses {
+            if currStatus.isReadyToRun() {
+                currStatus.timeGap = self.random()
+                currStatus.currentInterval = 0
+                currStatus.isRunning = true
+                
+            }
+            if currStatus.isRunning {
+                if let thisBlock = self.childNodeWithName(blk) {
+                    
+                    if thisBlock.position.x > (thisBlock.frame.size.width / 2) * -1 {
+                        thisBlock.position.x -= CGFloat(self.groundSpeed * 2)
+                    }else{
+                        thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2;
+                        currStatus.isRunning = false;
+                    }
+                }
+            }else{
+                currStatus.currentInterval++;
+            }
+            
         }
     }
 }
