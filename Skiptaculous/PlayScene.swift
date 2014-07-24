@@ -51,12 +51,11 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         
         //football player
         self.footballPlayer.position = CGPointMake(self.footballPlayer.frame.width / 2 + 4, self.runningBar.frame.height + self.footballPlayer.frame.height / 2)
-        self.addChild(self.footballPlayer)
+        
         
         //ball
         self.ball.position = CGPointMake((self.footballPlayer.position.x + self.footballPlayer.frame.width / 2) - self.ball.frame.width / 2, self.runningBar.frame.height + self.footballPlayer.frame.height / 2 - 4)
-        
-        self.addChild(self.ball)
+        self.ball.name = "ball"
         
         self.ball.physicsBody = SKPhysicsBody(circleOfRadius: (self.ball.frame.width / 2))
         self.ball.physicsBody!.affectedByGravity = false
@@ -74,7 +73,7 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         //adding blocks
         self.block1.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block1.frame.size.width / 2, self.runningBar.size.height + self.block1.size.height / 2);
         
-        self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2 + self.block1.size.width , self.runningBar.size.height + self.block2.size.height / 2);
+        self.block2.position = CGPointMake(CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2 + self.block1.size.width  , self.runningBar.size.height + self.block2.size.height / 2);
         
         self.block1.name = "block1";
         self.block2.name = "block2";
@@ -88,6 +87,9 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         
         self.addChild(self.block1)
         self.addChild(self.block2)
+        self.addChild(self.footballPlayer)
+        self.addChild(self.ball)
+        
         
         //ScoreText
         self.scoreText.text = "0"
@@ -167,9 +169,12 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
     func blockRunning(){
         for (blk, currStatus) in self.blockStatuses {
             if currStatus.isReadyToRun() {
-                currStatus.timeGap = self.random()
-                currStatus.currentInterval = 0
-                currStatus.isRunning = true
+                var cannotRun = (block1.position.x > CGRectGetMinX(block2.frame) && block1.position.x < CGRectGetMaxX(block2.frame)) || (block2.position.x > CGRectGetMinX(block1.frame) && block2.position.x < CGRectGetMaxX(block1.frame))
+                if !cannotRun {
+                    currStatus.timeGap = self.random()
+                    currStatus.currentInterval = 0
+                    currStatus.isRunning = true
+                }
                 
             }
             if currStatus.isRunning {
@@ -180,7 +185,11 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
                         thisBlock.position.x -= CGFloat(self.groundSpeed * 2)
                     }else{
                         // off the screen
-                        thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + thisBlock.frame.size.width / 2;
+                        if thisBlock.name != "block2"{
+                            thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + thisBlock.frame.size.width / 2;
+                        }else{
+                            thisBlock.position.x = CGRectGetMaxX(self.view.bounds) + self.block2.frame.size.width / 2 + self.block1.size.width
+                        }
                         currStatus.isRunning = false;
                         self.score++;
                         if self.score % 5 == 0 {
@@ -245,7 +254,7 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
         }
         enemyPlayer.physicsBody!.dynamic = false
         enemyPlayer.physicsBody!.categoryBitMask = colliderType.blockType.toRaw()
-        enemyPlayer.physicsBody!.contactTestBitMask = colliderType.ballCategory.toRaw()
+        //enemyPlayer.physicsBody!.contactTestBitMask = colliderType.ballCategory.toRaw()
         enemyPlayer.physicsBody!.collisionBitMask = colliderType.ballCategory.toRaw()
 
         
@@ -264,7 +273,7 @@ class PlayScene : SKScene , SKPhysicsContactDelegate {
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact!) {
-        println("hero has been touched by a something")
+        println("hero has been touched by a something \(contact.bodyA.node.name) and \(contact.bodyB.node.name)")
         /*
         if contact.bodyB.categoryBitMask == colliderType.ballCategory.toRaw() {
             println("hero has been touched by a something")
